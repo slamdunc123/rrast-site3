@@ -1,0 +1,7 @@
+export const FETCH_API_POSTS = 'FETCH_API_POSTS';
+
+export default {
+    DELETE_POST: 'DELETE_POST',
+    UPDATE_POST: 'UPDATE_POST',
+    ADD_POST: 'ADD_POST'
+}
