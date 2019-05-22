@@ -7,7 +7,6 @@ import Contact from '../views/Contact';
 import Home from '../views/Home';
 import Posts from '../views/Posts';
 import Users from '../views/Users';
-import ApiPosts from '../views/ApiPosts';
 
 const Main = () => {
     return(
@@ -19,7 +18,6 @@ const Main = () => {
                 <Route path="/contact" component={Contact} />
                 <Route path="/posts" component={Posts} />
                 <Route path="/users" component={Users} />
-                <Route path="/apiposts" component={ApiPosts} />
             </Switch>
         </div>
     )

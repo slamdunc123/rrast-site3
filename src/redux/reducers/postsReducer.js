@@ -2,16 +2,24 @@ import actionTypes from '../actions/actionTypes'
 
 const initState = {
     posts: [
-        { id: '1', title: 'Post 1'},
-        { id: '2', title: 'Post 2'},
-        { id: '3', title: 'Post 3'}
+        // { id: '1', title: 'Post 1'},
+        // { id: '2', title: 'Post 2'},
+        // { id: '3', title: 'Post 3'}
     ]
 }
 
 const postsReducer = (state = initState, action) => {
+    console.log(state);
     console.log(action);
-    console.log(action.id, action.title);
+    console.log(action.data);
+    // console.log(action.id, action.title);
     switch(action.type){
+
+        case actionTypes.FETCH_POSTS_DATA:
+            return {
+                ...state,
+                posts: action.data
+            }
         
         // DELETE POST
         case actionTypes.DELETE_POST:

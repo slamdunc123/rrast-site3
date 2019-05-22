@@ -1,15 +1,14 @@
 // redux imports
 import { combineReducers } from 'redux'
+// import data from './postsReducer';
 
 //  created reducers
 import usersReducer from './usersReducer'
 import postsReducer from './postsReducer'
-import apiPostsReducer from './apiPostsReducer'
 
 const rootReducer = combineReducers({
     users: usersReducer,
-    posts: postsReducer,
-    apiposts: apiPostsReducer
+    posts: postsReducer
 })
-
+// console.log(posts)
 export default rootReducer;

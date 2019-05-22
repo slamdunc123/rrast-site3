@@ -193,6 +193,7 @@ const mapDispatchToProps = (dispatch) => {
         //     type: 'DELETE_POST',
         //     id: id
         // })}
+        // fetchPosts: () => { dispatch(fetchPosts()) },
         deletePost: (id) => { dispatch(deletePost(id)) }, // need only the id (or array index) to Delete the object
         updatePost: (id, title) => { dispatch(updatePost(id, title)) }, // need only the id (or array index) to Edit the object
         addPost: (id, title) => { dispatch(addPost(id, title)) } // need to include all relevant fields to Add a new object

@@ -61,9 +61,6 @@ class Navigation extends Component {
                             <NavItem>
                                 <NavLink><Link className="nav-link" onClick={(e) => { this.closeBurgerMenu(e) }} to="/users">Users</Link></NavLink>
                             </NavItem>
-                            <NavItem>
-                                <NavLink><Link className="nav-link" onClick={(e) => { this.closeBurgerMenu(e) }} to="/apiposts">ApiPosts</Link></NavLink>
-                            </NavItem>
                             {/* <NavItem>
                                 <NavLink><Link className="nav-link" onClick={(e) => { this.closeBurgerMenu(e) }} to="/partials">Partials</Link></NavLink>
                             </NavItem> */}
