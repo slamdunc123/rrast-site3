@@ -12,6 +12,7 @@ const usersReducer = (state = initState, action) => {
     console.log(state);
     console.log(action);
     console.log(action.name);
+    console.log(action.email);
     // console.log(action.id, action.name);
     switch(action.type){
 
@@ -49,7 +50,17 @@ const usersReducer = (state = initState, action) => {
            
         // ADD USER
         case actionTypes.ADD_USER:
-            const newStateAddUser = state.users.concat([{id:action.id, name:action.name}]);
+            const newStateAddUser = state.users.concat([{
+                id:action.id, 
+                name:action.name, 
+                username:action.username, 
+                email:action.email, 
+                address: {
+                    suite:action.suite, 
+                    street:action.street
+                }
+                
+            }]);
             console.log(newStateAddUser);
             // return Object.assign({}, state, {users: newStateUsers}); //either of these work
             return {

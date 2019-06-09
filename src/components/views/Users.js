@@ -14,18 +14,20 @@ class Users extends Component {
         super(props);
 
         this.state = {
-            addForm: true,
+            addForm: false,
             editForm: false,
             userInfo: false,
             usersTable: true,
             users: [],
             id: '',
             name: '',
+            username: '',
             email: '',
             address: {},
             message: '',
             modal: false,
-            userInfoModal: false
+            userInfoModal: false,
+            userAddModal: false
         }
 
 
@@ -36,28 +38,35 @@ class Users extends Component {
 
     // render users table
     renderUsersTable() {
+       
         if (this.state.usersTable) {
             return (
-                <table className="table table-dark">
-                    <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>name</th>
-                            <th>action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {this.props.users.map(user =>
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.name}</td>
-                                <td><button className="btn btn-success" onClick={() => this.handleInfoUser(user.id, user.name, user.email, user.address)}>Info</button></td>&nbsp;
-                                <td><button className="btn btn-danger" onClick={() => this.handleDeleteUser(user.id)}>Delete</button></td>&nbsp;
-                                <td><button className="btn btn-warning" onClick={() => this.handleEditUser(user.id, user.name)}>Edit</button></td>&nbsp;
-                            </tr>
-                        )}
-                    </tbody>
-                </table>
+                <div>
+                    {/* button to show add form */}
+                    <button className="btn btn-info" onClick={() => this.setState({ userAddModal: true })}>Add</button>
+
+                   
+                    <div className="d-flex p-3 flex-wrap bg-secondary"> 
+                    {this.props.users.map(user =>
+
+                    
+                        
+                        <div className="card m-3 " key={user.id}>
+                            <div className="card-header">{user.id}</div>
+                            <div className="card-body">{user.name}</div>
+                            <div className="card-footer">
+                                <button className="btn btn-success" onClick={() => this.handleInfoUser(user.id, user.name, user.email, user.address)}>Info</button>&nbsp;
+                                <button className="btn btn-danger" onClick={() => this.handleDeleteUser(user.id)}>Delete</button>&nbsp;
+                                <button className="btn btn-warning" onClick={() => this.handleEditUser(user.id, user.name)}>Edit</button>&nbsp;
+
+                            </div>
+                        </div>
+                       
+                   
+                    )}
+                     </div>
+                    </div>
+              
             )
         }
     }
@@ -81,7 +90,7 @@ class Users extends Component {
 
     // render user info
     renderUserInfo() {
-        const { id, name, email } = this.state;
+        const { id, name, username, email } = this.state;
         const { suite, street, city, zipcode } = this.state.address;
 
         const divStyle = {
@@ -124,38 +133,90 @@ class Users extends Component {
         })
     }
 
+    // close edit form
+    closeAddModal = () => {
+        this.setState({
+            addForm: true,
+            editForm: false,
+            usersTable: true,
+            userAddModal: false
+        })
+    }
+
     // *** ADD USER ***
 
     // handle add click
     handleAddUser = (e) => { //passes in the event
         e.preventDefault();
         // console.log(e.target.user.value) //extract value from user object from the event
-        const newUserName = e.target.user.value;
+        const newUserName = e.target.name.value;
+        const newUserUsername = e.target.username.value;
+        const newUserEmail = e.target.email.value;
+        const newUserSuite = e.target.suite.value;
+        const newUserStreet = e.target.street.value;
         let idNum = Math.floor((Math.random() * 1000) + 9999); // generate random number for id
-        if (newUserName !== '') { //do if data in list
-            this.props.addUser(idNum, e.target.user.value);
+        if (newUserName !== '') { //do if data is not empty
+            this.props.addUser(idNum, newUserName, newUserUsername, newUserEmail, newUserSuite, newUserStreet); // passes arguments into props
             this.setState({
-                message: ''
+                message: '',
+                userAddModal: false
             })
-        } else { //do if data not in list
+        } else { //do if data is empty
             console.log(newUserName)
             this.setState({
                 message: 'Please enter a user.'
             })
         }
-        e.target.user.value = ''; //reset input field
+        e.target.name.value = ''; //reset input field
+        e.target.username.value = ''; //reset input field
+        e.target.email.value = ''; //reset input field
+        e.target.suite.value = ''; //reset input field
+        e.target.street.value = ''; //reset input field
     }
 
     // render add form
     renderAddForm() {
-        if (this.state.addForm) {
-            return <form onSubmit={this.handleAddUser}>
-                <div className="form-group">
-                    <label className="" htmlFor="add-user">Add User &nbsp;</label>
-                    <input type="text" name="user" className="user" id="add-user" />
-                    <button className="btn btn-primary btn-add-user">Add</button>
-                </div>
-            </form>
+
+        const divStyle = {
+            width: '100%'
+        }
+
+        if (this.state.userAddModal) {
+            return <Modal isOpen={this.state.userAddModal} >
+                <ModalBody>
+                    <div className="card" style={divStyle}>
+                        <div className="card-header">
+                            {/* User: <strong>{id}</strong> */}
+                            <button className="btn btn-danger float-right" onClick={this.closeAddModal}>X</button>
+                        </div>
+                        <div className="card-body">
+                            <form onSubmit={this.handleAddUser}>
+                                <div className="form-group">
+                                    <label className="" htmlFor="add-name">Name&nbsp;</label>
+                                    <input type="text" name="name" className="user" id="add-name" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="" htmlFor="add-username">Username&nbsp;</label>
+                                    <input type="text" name="username" className="user" id="add-username" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="" htmlFor="add-email">Email&nbsp;</label>
+                                    <input type="text" name="email" className="user" id="add-email" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="" htmlFor="add-suite">Suite&nbsp;</label>
+                                    <input type="text" name="suite" className="user" id="add-suite" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="" htmlFor="add-street">Street&nbsp;</label>
+                                    <input type="text" name="street" className="user" id="add-street" />
+                                </div>
+                                <button className="btn btn-primary btn-add-user">Create</button>
+                            </form>
+                        </div>
+                    </div>
+                </ModalBody>
+            </Modal>
         }
     }
 
@@ -310,7 +371,7 @@ const mapDispatchToProps = (dispatch) => {
         // fetchUsers: () => { dispatch(fetchUsers()) },
         deleteUser: (id) => { dispatch(deleteUser(id)) }, // need only the id (or array index) to Delete the object
         updateUser: (id, name) => { dispatch(updateUser(id, name)) }, // need only the id (or array index) to Edit the object
-        addUser: (id, name) => { dispatch(addUser(id, name)) } // need to include all relevant fields to Add a new object
+        addUser: (id, name, username, email, suite, street) => { dispatch(addUser(id, name, username, email, suite, street)) } // need to include all relevant fields to Add a new object
     }
 }
 

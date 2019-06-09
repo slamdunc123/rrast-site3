@@ -39,10 +39,14 @@ export const updateUser = (id, name) => { // need id (or array index) and field/
     }
 }
 
-export const addUser = (id, name) => { // need to include all relevant fields to Add a new object
+export const addUser = (id, name, username, email, suite, street) => { // need to include all relevant fields to Add a new object
     return {
         type: actionTypes.ADD_USER,
         id: id,
-        name: name
+        name: name,
+        username: username,
+        email: email,
+        suite: suite,
+        street: street
     }
 }
