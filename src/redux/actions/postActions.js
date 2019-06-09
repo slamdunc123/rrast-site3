@@ -31,7 +31,7 @@ export const deletePost = (id) => { // need only the id (or array index) to Dele
     }
 }
 
-export const updatePost = (id, title) => { // need id (or array index) and field/s being edited to Edit the object
+export const updatePost = (id, title) => { // need id (or array index) and field/s being updated to Update the object
     return {
         type: actionTypes.UPDATE_POST,
         id: id,

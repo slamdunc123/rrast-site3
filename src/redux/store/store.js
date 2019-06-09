@@ -2,7 +2,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import rootReducer from '../reducers/rootReducer';
 import thunk from 'redux-thunk'
 
-import { fetchPostsData } from '../actions/postActions';
+// import { fetchPostsData } from '../actions/postActions';
 
 // console.log(fetchPostsData)
 
@@ -21,6 +21,6 @@ const appStore = createStore(
     )
 );
 
-appStore.dispatch(fetchPostsData)
+// appStore.dispatch(fetchPostsData)
 
 export default appStore;

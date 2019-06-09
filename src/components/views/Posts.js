@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 
+import { Modal, ModalHeader, ModalBody } from 'reactstrap'
+
 // import PostAdd from './PostAdd'
 
 // redux imports
@@ -18,11 +20,16 @@ class Posts extends Component {
             posts: [],
             id: '',
             title: '',
-            message: ''
+            message: '',
+            modal: false
         }
 
 
         // this.handleUpdatePost = this.handleUpdatePost.bind(this);
+    }
+
+    handleInfoPost = (id) => {
+        alert('info for id: ' + id)
     }
 
     //handle delete click
@@ -50,13 +57,14 @@ class Posts extends Component {
             editForm: true,
             postsTable: false,
             id: id,
-            title: title
+            title: title,
+            modal: true
         })
 
         // this.renderEditForm(id);
     }
 
-    // handle edit click
+    // handle update click
     handleUpdatePost = (e) => {
         e.preventDefault();
         const id = this.state.id;
@@ -79,6 +87,15 @@ class Posts extends Component {
         }
         
 
+    }
+
+    // close edit form
+    closeEditForm = () => {
+       this.setState({
+           addForm: true,
+           editForm: false,
+           postsTable: true
+       })
     }
 
     // handle add click
@@ -106,27 +123,37 @@ class Posts extends Component {
         if (this.state.addForm) {
             return <form onSubmit={this.handleAddPost}>
                 <div className="form-group">
-                    <label className="" htmlFor="add-post">Add Item &nbsp;</label>
+                    <label className="" htmlFor="add-post">Add Post &nbsp;</label>
                     <input type="text" name="post" className="post" id="add-post" />
                     <button className="btn btn-primary btn-add-post">Add</button>
+
                 </div>
             </form>
         }
     }
 
     // render edit form
-    renderEditForm() {
+    renderEditForm(id) {
         // console.log('edit form passed post ', id)
 
         if (this.state.editForm) {
             // const id = this.state.id;
             // console.log(id);
-            return <form onSubmit={this.handleUpdatePost}>
-                <label className="" htmlFor="edit-post">Edit Item &nbsp;</label>
-                <input type="text" name="updatedPost" className="post" id="edit-post" defaultValue={this.state.title} />
+            return <Modal isOpen={this.state.modal} >
+            <ModalHeader>
+                Edit Post - {id}
+            </ModalHeader>
+            <ModalBody>
+            <form onSubmit={this.handleUpdatePost}>
+                <label className="" htmlFor="edit-post">Edit Post &nbsp;</label>
+                <input type="text" name="updatedPost" className="post" id="edit-post" defaultValue={this.state.title} />&nbsp;
                 {/* <input type="text" name="updatedPost" className="post" id="edit-post" /> */}
                 <button className="btn btn-primary update-add-post">Update</button>
             </form>
+
+            <button className="btn btn-danger" onClick={this.closeEditForm}>X</button>
+            </ModalBody>
+            </Modal>
         }
     }
 
@@ -147,6 +174,7 @@ class Posts extends Component {
                             <tr key={post.id}>
                                 <td>{post.id}</td>
                                 <td>{post.title}</td>
+                                <td><button className="btn btn-success" onClick={() => this.handleInfoPost(post.id)}>Info</button></td>&nbsp;
                                 <td><button className="btn btn-danger" onClick={() => this.handleDeletePost(post.id)}>Delete</button></td>&nbsp;
                                 <td><button className="btn btn-warning" onClick={() => this.handleEditPost(post.id, post.title)}>Edit</button></td>&nbsp;
                             </tr>
@@ -164,7 +192,7 @@ class Posts extends Component {
         return (
             <div className="container">
                 {this.renderAddForm()}
-                {this.renderEditForm()}
+                {this.renderEditForm(this.state.id)}
                 <div className="content">
                 {
                     // (this.message !== '' || this.posts.length === 0) && <p className="message text-danger">{this.message}</p>

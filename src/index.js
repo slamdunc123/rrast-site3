@@ -9,30 +9,36 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { Provider } from 'react-redux';
 
-import { createStore, applyMiddleware, compose } from 'redux';
-import rootReducer from './redux/reducers/rootReducer';
-import thunk from 'redux-thunk'
+// import { createStore, applyMiddleware, compose } from 'redux';
+// import rootReducer from './redux/reducers/rootReducer';
+// import thunk from 'redux-thunk'
+
+import appStore from './redux/store/store'
 
 import { fetchPostsData } from './redux/actions/postActions';
+import { fetchUsersData } from './redux/actions/userActions';
+
 
 // console.log(fetchPostsData)
 
-const initState = {};
+// const initState = {};
 
-const middleware = [
-    thunk
-]
+// const middleware = [
+//     thunk
+// ]
 
-const appStore = createStore(
-    rootReducer, 
-    initState,
-    compose(
-        applyMiddleware(...middleware),
-        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-    )
-);
+// const appStore = createStore(
+//     rootReducer, 
+//     initState,
+//     compose(
+//         applyMiddleware(...middleware),
+//         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+//     )
+// );
 
+// gets data on initial site load
 appStore.dispatch(fetchPostsData())
+appStore.dispatch(fetchUsersData())
 
 
 ReactDOM.render(
