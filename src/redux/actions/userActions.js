@@ -31,15 +31,21 @@ export const deleteUser = (id) => { // need only the id (or array index) to Dele
     }
 }
 
-export const updateUser = (id, name) => { // need id (or array index) and field/s being edited to Edit the object
+export const updateUser = (id, name, username, email, suite, street, city, zipcode) => { // need id (or array index) and field/s being edited to Edit the object
     return {
         type: actionTypes.UPDATE_USER,
         id: id,
-        name: name
+        name: name,
+        username: username,
+        email: email,
+        suite: suite,
+        street: street,
+        city: city,
+        zipcode: zipcode
     }
 }
 
-export const addUser = (id, name, username, email, suite, street) => { // need to include all relevant fields to Add a new object
+export const addUser = (id, name, username, email, suite, street, city, zipcode) => { // need to include all relevant fields to Add a new object
     return {
         type: actionTypes.ADD_USER,
         id: id,
@@ -47,6 +53,8 @@ export const addUser = (id, name, username, email, suite, street) => { // need t
         username: username,
         email: email,
         suite: suite,
-        street: street
+        street: street,
+        city: city,
+        zipcode: zipcode
     }
 }

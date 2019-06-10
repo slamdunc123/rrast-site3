@@ -38,6 +38,12 @@ const usersReducer = (state = initState, action) => {
                 console.log(action.id, action.name)
                 if (user.id === action.id) {
                     user.name = action.name;
+                    user.username = action.username;
+                    user.email = action.email;
+                    user.address.suite = action.suite;
+                    user.address.street = action.street;
+                    user.address.city = action.city;
+                    user.address.zipcode = action.zipcode;
                     console.log('yes ', user.name)
                 }
                 return user;
@@ -51,13 +57,15 @@ const usersReducer = (state = initState, action) => {
         // ADD USER
         case actionTypes.ADD_USER:
             const newStateAddUser = state.users.concat([{
-                id:action.id, 
-                name:action.name, 
-                username:action.username, 
-                email:action.email, 
+                id: action.id, 
+                name: action.name, 
+                username: action.username, 
+                email: action.email, 
                 address: {
-                    suite:action.suite, 
-                    street:action.street
+                    suite: action.suite, 
+                    street: action.street,
+                    city: action.city,
+                    zipcode: action.zipcode
                 }
                 
             }]);

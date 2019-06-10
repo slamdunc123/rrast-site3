@@ -45,24 +45,19 @@ class Users extends Component {
                     {/* button to show add form */}
                     <button className="btn btn-info" onClick={() => this.setState({ userAddModal: true })}>Add</button>
 
-                   
                     <div className="d-flex p-3 flex-wrap bg-secondary"> 
                     {this.props.users.map(user =>
 
-                    
-                        
                         <div className="card m-3 " key={user.id}>
                             <div className="card-header">{user.id}</div>
                             <div className="card-body">{user.name}</div>
                             <div className="card-footer">
-                                <button className="btn btn-success" onClick={() => this.handleInfoUser(user.id, user.name, user.email, user.address)}>Info</button>&nbsp;
+                                <button className="btn btn-success" onClick={() => this.handleUserInfo(user.id, user.name, user.username, user.email, user.address)}>Info</button>&nbsp;
                                 <button className="btn btn-danger" onClick={() => this.handleDeleteUser(user.id)}>Delete</button>&nbsp;
-                                <button className="btn btn-warning" onClick={() => this.handleEditUser(user.id, user.name)}>Edit</button>&nbsp;
+                                <button className="btn btn-warning" onClick={() => this.handleEditUser(user.id, user.name, user.username, user.email, user.address)}>Edit</button>&nbsp;
 
                             </div>
                         </div>
-                       
-                   
                     )}
                      </div>
                     </div>
@@ -74,7 +69,7 @@ class Users extends Component {
     // *** SHOW SINGLE USER ***
 
     // handle info user
-    handleInfoUser = (id, name, email, address) => {
+    handleUserInfo = (id, name, username, email, address) => {
         console.log('Info for user: ' + id + ' - ' + address)
         this.setState({
             addForm: false,
@@ -82,6 +77,7 @@ class Users extends Component {
             usersTable: false,
             id: id,
             name: name,
+            username: username,
             email: email,
             address: address,
             userInfoModal: true
@@ -106,6 +102,7 @@ class Users extends Component {
                         </div>
                         <ul className="list-group list-group-flush">
                             <li className="list-group-item">Name: <strong>{name}</strong></li>
+                            <li className="list-group-item">Username: <strong>{username}</strong></li>
                             <li className="list-group-item">Email: <strong>{email}</strong></li>
                             <li className="list-group-item"> Address:
                                 <ul className="list-group list-group-flush">
@@ -154,9 +151,11 @@ class Users extends Component {
         const newUserEmail = e.target.email.value;
         const newUserSuite = e.target.suite.value;
         const newUserStreet = e.target.street.value;
+        const newUserCity = e.target.city.value;
+        const newUserZipcode = e.target.zipcode.value;
         let idNum = Math.floor((Math.random() * 1000) + 9999); // generate random number for id
         if (newUserName !== '') { //do if data is not empty
-            this.props.addUser(idNum, newUserName, newUserUsername, newUserEmail, newUserSuite, newUserStreet); // passes arguments into props
+            this.props.addUser(idNum, newUserName, newUserUsername, newUserEmail, newUserSuite, newUserStreet, newUserCity, newUserZipcode); // passes arguments into props
             this.setState({
                 message: '',
                 userAddModal: false
@@ -172,6 +171,8 @@ class Users extends Component {
         e.target.email.value = ''; //reset input field
         e.target.suite.value = ''; //reset input field
         e.target.street.value = ''; //reset input field
+        e.target.city.value = ''; //reset input field
+        e.target.zipcode.value = ''; //reset input field
     }
 
     // render add form
@@ -211,6 +212,14 @@ class Users extends Component {
                                     <label className="" htmlFor="add-street">Street&nbsp;</label>
                                     <input type="text" name="street" className="user" id="add-street" />
                                 </div>
+                                <div className="form-group">
+                                    <label className="" htmlFor="add-city">City&nbsp;</label>
+                                    <input type="text" name="city" className="user" id="add-city" />
+                                </div>
+                                <div className="form-group">
+                                    <label className="" htmlFor="add-zipcode">Zipcode&nbsp;</label>
+                                    <input type="text" name="zipcode" className="user" id="add-zipcode" />
+                                </div>
                                 <button className="btn btn-primary btn-add-user">Create</button>
                             </form>
                         </div>
@@ -243,14 +252,17 @@ class Users extends Component {
     // *** EDIT USER ***
 
     // handle edit click
-    handleEditUser = (id, name) => {
-        console.log('edit button clicked on user ', id, name);
+    handleEditUser = (id, name, username, email, address) => {
+        console.log('edit button clicked on user ', id, name, username);
         this.setState({
             addForm: false,
             editForm: true,
             usersTable: false,
             id: id,
             name: name,
+            username: username,
+            email: email,
+            address: address,
             modal: true
         })
 
@@ -279,9 +291,33 @@ class Users extends Component {
                         <div className="card-body">
                             <form onSubmit={this.handleUpdateUser}>
                                 <div class="form-group">
-                                    <label className="" htmlFor="edit-user">Name:&nbsp;</label>
-                                    <input type="text" name="updatedUser" className="user" id="edit-user" defaultValue={this.state.name} />&nbsp;
+                                    <label className="" htmlFor="edit-name">Name:&nbsp;</label>
+                                    <input type="text" name="updatedName" className="user" id="edit-name" defaultValue={this.state.name} />&nbsp;
                         {/* <input type="text" name="updatedUser" className="user" id="edit-user" /> */}
+                                </div>
+                                <div class="form-group">
+                                    <label className="" htmlFor="edit-username">Username:&nbsp;</label>
+                                    <input type="text" name="updatedUsername" className="user" id="edit-username" defaultValue={this.state.username} />&nbsp;
+                                </div>
+                                <div class="form-group">
+                                    <label className="" htmlFor="edit-email">Email:&nbsp;</label>
+                                    <input type="text" name="updatedEmail" className="user" id="edit-email" defaultValue={this.state.email} />&nbsp;
+                                </div>
+                                <div class="form-group">
+                                    <label className="" htmlFor="edit-suite">Suite:&nbsp;</label>
+                                    <input type="text" name="updatedSuite" className="user" id="edit-suite" defaultValue={this.state.address.suite} />&nbsp;
+                                </div>
+                                <div class="form-group">
+                                    <label className="" htmlFor="edit-street">Street:&nbsp;</label>
+                                    <input type="text" name="updatedStreet" className="user" id="edit-street" defaultValue={this.state.address.street} />&nbsp;
+                                </div>
+                                <div class="form-group">
+                                    <label className="" htmlFor="edit-city">City:&nbsp;</label>
+                                    <input type="text" name="updatedCity" className="user" id="edit-city" defaultValue={this.state.address.city} />&nbsp;
+                                </div>
+                                <div class="form-group">
+                                    <label className="" htmlFor="edit-zipcode">Zipcode:&nbsp;</label>
+                                    <input type="text" name="updatedZipcode" className="user" id="edit-zipcode" defaultValue={this.state.address.zipcode} />&nbsp;
                                 </div>
                                 <button className="btn btn-primary">Update</button>
                             </form>
@@ -297,11 +333,17 @@ class Users extends Component {
     handleUpdateUser = (e) => {
         e.preventDefault();
         const id = this.state.id;
-        console.log(e.target.updatedUser.value, id);
-        const updatedUserName = e.target.updatedUser.value;
-        if (updatedUserName !== '') {
-            this.props.updateUser(id, updatedUserName);
-            console.log(updatedUserName)
+        console.log(e.target.updatedName.value, id);
+        const updatedName = e.target.updatedName.value;
+        const updatedUsername = e.target.updatedUsername.value;
+        const updatedEmail = e.target.updatedEmail.value;
+        const updatedSuite = e.target.updatedSuite.value;
+        const updatedStreet = e.target.updatedStreet.value;
+        const updatedCity = e.target.updatedCity.value;
+        const updatedZipcode = e.target.updatedZipcode.value;
+        if (updatedName !== '') {
+            this.props.updateUser(id, updatedName, updatedUsername, updatedEmail, updatedSuite, updatedStreet, updatedCity, updatedZipcode);
+            console.log(updatedName)
 
             this.setState({
                 addForm: true,
@@ -370,8 +412,8 @@ const mapDispatchToProps = (dispatch) => {
         // })}
         // fetchUsers: () => { dispatch(fetchUsers()) },
         deleteUser: (id) => { dispatch(deleteUser(id)) }, // need only the id (or array index) to Delete the object
-        updateUser: (id, name) => { dispatch(updateUser(id, name)) }, // need only the id (or array index) to Edit the object
-        addUser: (id, name, username, email, suite, street) => { dispatch(addUser(id, name, username, email, suite, street)) } // need to include all relevant fields to Add a new object
+        updateUser: (id, name, username, email, suite, street, city, zipcode) => { dispatch(updateUser(id, name, username, email, suite, street, city, zipcode)) }, // need only the id (or array index) to Edit the object
+        addUser: (id, name, username, email, suite, street, city, zipcode) => { dispatch(addUser(id, name, username, email, suite, street, city, zipcode)) } // need to include all relevant fields to Add a new object
     }
 }
 
